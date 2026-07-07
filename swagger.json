@@ -1,0 +1,383 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "llquiz-backend", "version": "0.1.0" },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "string" },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/db": {
+      "get": {
+        "summary": "Db Health",
+        "operationId": "db_health_health_db_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "string" },
+                  "type": "object",
+                  "title": "Response Db Health Health Db Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invite": {
+      "get": {
+        "summary": "Check Invite",
+        "operationId": "check_invite_invite_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": { "type": "boolean" },
+                  "type": "object",
+                  "title": "Response Check Invite Invite Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBearer": [] }]
+      }
+    },
+    "/api/v1/quiz": {
+      "get": {
+        "summary": "List Quizzes",
+        "operationId": "list_quizzes_api_v1_quiz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": { "$ref": "#/components/schemas/QuizListItem" },
+                  "type": "array",
+                  "title": "Response List Quizzes Api V1 Quiz Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBearer": [] }]
+      },
+      "post": {
+        "summary": "Create Quiz",
+        "operationId": "create_quiz_api_v1_quiz_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_quiz_api_v1_quiz_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QuizCreated" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "HTTPBearer": [] }]
+      }
+    },
+    "/api/v1/quiz/{quiz_id}": {
+      "get": {
+        "summary": "Get Quiz",
+        "operationId": "get_quiz_api_v1_quiz__quiz_id__get",
+        "security": [{ "HTTPBearer": [] }],
+        "parameters": [
+          {
+            "name": "quiz_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Quiz Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QuizDetail" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/grade/{quiz_id}": {
+      "post": {
+        "summary": "Grade Quiz",
+        "operationId": "grade_quiz_api_v1_grade__quiz_id__post",
+        "security": [{ "HTTPBearer": [] }],
+        "parameters": [
+          {
+            "name": "quiz_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Quiz Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_grade_quiz_api_v1_grade__quiz_id__post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GradeResponse" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Grades",
+        "operationId": "list_grades_api_v1_grade__quiz_id__get",
+        "security": [{ "HTTPBearer": [] }],
+        "parameters": [
+          {
+            "name": "quiz_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Quiz Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/GradeRankItem" },
+                  "title": "Response List Grades Api V1 Grade  Quiz Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_create_quiz_api_v1_quiz_post": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "file": { "type": "string", "format": "binary", "title": "File" }
+        },
+        "type": "object",
+        "required": ["name", "file"],
+        "title": "Body_create_quiz_api_v1_quiz_post"
+      },
+      "Body_grade_quiz_api_v1_grade__quiz_id__post": {
+        "properties": {
+          "file": { "type": "string", "format": "binary", "title": "File" }
+        },
+        "type": "object",
+        "required": ["file"],
+        "title": "Body_grade_quiz_api_v1_grade__quiz_id__post"
+      },
+      "GradeRankItem": {
+        "properties": {
+          "rank": { "type": "integer", "title": "Rank" },
+          "name": { "type": "string", "title": "Name" },
+          "score": { "type": "integer", "title": "Score" },
+          "total": { "type": "integer", "title": "Total" },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": ["rank", "name", "score", "total", "createdAt"],
+        "title": "GradeRankItem"
+      },
+      "GradeResponse": {
+        "properties": {
+          "name": { "type": "string", "title": "Name" },
+          "score": { "type": "integer", "title": "Score" },
+          "total": { "type": "integer", "title": "Total" },
+          "selectedIndexes": {
+            "items": { "type": "integer" },
+            "type": "array",
+            "title": "Selectedindexes"
+          },
+          "result": {
+            "items": { "$ref": "#/components/schemas/GradeResultItem" },
+            "type": "array",
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": ["name", "score", "total", "selectedIndexes", "result"],
+        "title": "GradeResponse"
+      },
+      "GradeResultItem": {
+        "properties": {
+          "number": { "type": "integer", "title": "Number" },
+          "selectedIndex": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Selectedindex"
+          },
+          "answerIndex": { "type": "integer", "title": "Answerindex" },
+          "correct": { "type": "boolean", "title": "Correct" }
+        },
+        "type": "object",
+        "required": ["number", "selectedIndex", "answerIndex", "correct"],
+        "title": "GradeResultItem"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ProblemPublic": {
+        "properties": {
+          "question": { "type": "string", "title": "Question" },
+          "choices": {
+            "items": { "type": "string" },
+            "type": "array",
+            "title": "Choices"
+          }
+        },
+        "type": "object",
+        "required": ["question", "choices"],
+        "title": "ProblemPublic"
+      },
+      "QuizCreated": {
+        "properties": { "id": { "type": "string", "title": "Id" } },
+        "type": "object",
+        "required": ["id"],
+        "title": "QuizCreated"
+      },
+      "QuizDetail": {
+        "properties": {
+          "id": { "type": "string", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "count": { "type": "integer", "title": "Count" },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "problems": {
+            "items": { "$ref": "#/components/schemas/ProblemPublic" },
+            "type": "array",
+            "title": "Problems"
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "count", "createdAt", "problems"],
+        "title": "QuizDetail"
+      },
+      "QuizListItem": {
+        "properties": {
+          "id": { "type": "string", "title": "Id" },
+          "name": { "type": "string", "title": "Name" },
+          "count": { "type": "integer", "title": "Count" },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": ["id", "name", "count", "createdAt"],
+        "title": "QuizListItem"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": { "HTTPBearer": { "type": "http", "scheme": "bearer" } }
+  }
+}
