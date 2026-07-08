@@ -889,6 +889,9 @@ function TestPaper({
           />
         </div>
       </div>
+      <div className="pointer-events-none absolute right-6 bottom-6 z-10 text-5xl font-bold text-black">
+        LLQuiz
+      </div>
     </section>
   );
 }
